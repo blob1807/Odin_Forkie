@@ -2,9 +2,16 @@ package sdl3
 
 import "core:c"
 
-@(link_prefix="SDL_")
-foreign lib {
-	joystick_lock: ^Mutex
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(link_prefix="SDL_")
+    foreign {
+        joystick_lock: ^Mutex
+    }
+} else {
+    @(link_prefix="SDL_")
+    foreign lib {
+        joystick_lock: ^Mutex
+    }
 }
 
 Joystick :: struct {}
